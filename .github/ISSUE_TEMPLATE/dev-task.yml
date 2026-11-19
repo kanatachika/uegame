@@ -1,0 +1,51 @@
+name: 🛠️ 开发 / 工程任务
+description: UE5 功能实现、GAS 技能模块、灰盒地图搭建、美术/音频接入或工具链任务
+title: "[开发] "
+labels: ["dev"]
+body:
+  - type: dropdown
+    id: module
+    attributes:
+      label: 所属模块
+      options:
+        - 核心玩法 / GAS 能力模块
+        - 角色白板与部位耐久
+        - 地图与灰盒原型
+        - UI / HUD 反馈
+        - 联机同步与服务器结算
+        - 美术 / 动画 / 音频资产
+        - DevOps / CI 与工具链
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: 这项任务要做出什么？
+      description: 用简单明确的话写清目标和边界（不需要做哪些东西也可以顺手写出来）
+      placeholder: |
+        实现基础模块「跑步（GA_Sprint）」：
+        - 购买并装到腿部槽位后，按 Shift 可加速冲刺
+        - 腿部模块耐久归零或掉落后，立即失去冲刺能力
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 怎么算做完？（验收标准）
+      description: 列出 1~3 条能直接实测打勾的标准
+      placeholder: |
+        - [ ] 白板出生按 Shift 无反应
+        - [ ] 装备 GA_Sprint 后按 Shift 移速提升，松开恢复
+        - [ ] 服务端移除该技能后，客户端不再能触发冲刺
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 关联文档 / 技术备注（选填）
+      description: 相关的设定集条目、Issue 编号或实现思路
+      placeholder: 例如：关联决策卡 #5，参考设定集第 9 章 GAS 方案

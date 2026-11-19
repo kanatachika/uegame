@@ -1,0 +1,58 @@
+# =============================================================================
+# Clang-Format 配置 — 贴合 Unreal Engine 5 官方 C++ 编码规范
+# =============================================================================
+# 关键要点：
+# 1. Allman 大括号换行（{ 独占一行）
+# 2. Tab 缩进（宽度 4）
+# 3. 指针/引用左对齐（AActor* MyActor, const FVector& Loc）
+# 4. 严禁自动重排 #include（UE5 要求 *.generated.h 永远排在头文件最后一个 include，
+#    自动排序会导致 UnrealHeaderTool 报错！）
+# =============================================================================
+
+BasedOnStyle: LLVM
+Language: Cpp
+Standard: c++20
+
+# 缩进与制表符（UE5 标准：Tab 缩进，宽度 4）
+IndentWidth: 4
+TabWidth: 4
+UseTab: ForIndentation
+ContinuationIndentWidth: 4
+AccessModifierOffset: -4
+IndentCaseLabels: true
+NamespaceIndentation: None
+
+# 大括号换行（UE5 标准：Allman 风格，左大括号另起一行）
+BreakBeforeBraces: Allman
+
+# 行宽上限（现代宽屏适中宽度）
+ColumnLimit: 120
+
+# 指针与引用靠左（如 UAbilitySystemComponent* ASC）
+PointerAlignment: Left
+
+# 严禁重排头文件顺序，保护 *.generated.h 始终在最后
+SortIncludes: Never
+
+# 允许极简内联空函数，但禁止单行控制语句挤在一起
+AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Empty
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+
+# 识别 UE5 反射宏，避免宏下一行被错误地多缩进一层
+StatementMacros:
+  - GENERATED_BODY
+  - GENERATED_UCLASS_BODY
+  - GENERATED_USTRUCT_BODY
+  - GENERATED_IINTERFACE_BODY
+  - UPROPERTY
+  - UFUNCTION
+  - UCLASS
+  - USTRUCT
+  - UENUM
+  - UINTERFACE
+  - UE_DECLARE_GAMEPLAY_TAG_EXTERN
+  - UE_DEFINE_GAMEPLAY_TAG

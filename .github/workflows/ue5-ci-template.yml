@@ -1,0 +1,143 @@
+# ==============================================================================
+# UE5 C++ 格式检查 & 编译测试流水线（预留模板）
+#
+# 【当前状态】
+# 仓库尚处于玩法定稿与框架准备阶段，还没有创建 .uproject 工程，也没有接入自建构建机。
+# 因此本流水线默认仅支持手动触发（workflow_dispatch），不会在 push / PR 时自动报错红灯。
+#
+# 【后续怎么启用】
+# 1. 当 Source/ 下出现 UE5 C++ 代码后，可以取消下面 push / pull_request 的注释，
+#    让 cpp-format-check 自动检查 C++ 代码格式（它跑在 GitHub 免费 Linux 机器上）。
+# 2. 当 .uproject 工程落地、且团队配置好自建 Windows 构建机（self-hosted runner，
+#    建议打上 labels: [self-hosted, windows, ue5] 并设置系统环境变量 UE5_ROOT）后，
+#    即可在手动触发时勾选 run_ue5_build，或取消下方对应触发条件注释实现自动编译测试。
+# 3. 详细接入步骤见：docs/devops/ci-cd-overview.md
+# ==============================================================================
+
+name: UE5 CI (Template)
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_format_check:
+        description: "检查 Source/ 下的 UE5 C++ 代码格式（无 C++ 代码时自动跳过）"
+        type: boolean
+        default: true
+      run_ue5_build:
+        description: "在自建 UE5 构建机上编译并运行自动化测试（接入 self-hosted Runner 后再勾选）"
+        type: boolean
+        default: false
+  # ----------------------------------------------------------------------------
+  # 等 UE5 工程落地后再按需取消注释：
+  # pull_request:
+  #   paths:
+  #     - "Source/**"
+  #     - "Plugins/**"
+  #     - "*.uproject"
+  #     - ".clang-format"
+  # ----------------------------------------------------------------------------
+
+permissions:
+  contents: read
+
+jobs:
+  cpp-format-check:
+    name: C++ 代码格式检查 (clang-format)
+    if: ${{ inputs.run_format_check != false }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: 检测是否存在 UE5 C++ 源码
+        id: detect_cpp
+        shell: bash
+        run: |
+          if [ ! -d "Source" ]; then
+            echo "当前仓库还没有 Source/ 目录，跳过 clang-format 检查（等 UE5 工程落地后自动生效）。"
+            echo "has_cpp=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          file_count=$(find Source -type f \( -name '*.h' -o -name '*.hpp' -o -name '*.cpp' -o -name '*.inl' \) | wc -l)
+          if [ "$file_count" -eq 0 ]; then
+            echo "Source/ 目录下暂时没有 C++ 文件，跳过 clang-format 检查。"
+            echo "has_cpp=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "找到 $file_count 个 C++ 文件，准备运行 clang-format 检查。"
+            echo "has_cpp=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 安装 clang-format
+        if: steps.detect_cpp.outputs.has_cpp == 'true'
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format
+
+      - name: 运行 clang-format 检查
+        if: steps.detect_cpp.outputs.has_cpp == 'true'
+        shell: bash
+        run: |
+          find Source -type f \( -name '*.h' -o -name '*.hpp' -o -name '*.cpp' -o -name '*.inl' \) -print0 \
+            | xargs -0 clang-format --dry-run --Werror
+
+  ue5-build-and-test:
+    name: UE5 工程编译与自动化测试 (Self-Hosted Runner)
+    # 仅在显式勾选 run_ue5_build 时运行，避免尚未配置自建构建机时任务一直排队卡住
+    if: ${{ inputs.run_ue5_build == true }}
+    runs-on: [self-hosted, windows, ue5]
+    steps:
+      - name: 拉取代码（构建机按需拉取 LFS 资产）
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: 检查 .uproject 与 UE5_ROOT 环境
+        id: detect_project
+        shell: pwsh
+        run: |
+          $uproject = Get-ChildItem -Path . -Filter "*.uproject" -File | Select-Object -First 1
+          if (-not $uproject) {
+            Write-Error "仓库根目录未找到 .uproject 文件，请先创建 UE5 工程后再运行此流水线。"
+            exit 1
+          }
+          if (-not $env:UE5_ROOT -or -not (Test-Path $env:UE5_ROOT)) {
+            Write-Error "自建构建机未设置有效的 UE5_ROOT 环境变量（例如 C:\Program Files\Epic Games\UE_5.4）。"
+            exit 1
+          }
+          Write-Host "发现工程：$($uproject.FullName)"
+          Write-Host "UE5 路径：$env:UE5_ROOT"
+          "project_path=$($uproject.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "project_name=$($uproject.BaseName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: 编译 Editor 目标（Development Win64）
+        shell: pwsh
+        run: |
+          $buildBat = Join-Path $env:UE5_ROOT "Engine\Build\BatchFiles\Build.bat"
+          $targetName = "${{ steps.detect_project.outputs.project_name }}Editor"
+          & $buildBat $targetName Win64 Development -Project="${{ steps.detect_project.outputs.project_path }}" -WaitMutex -FromMsBuild
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: 运行 UE5 自动化测试（Project 命名空间）
+        shell: pwsh
+        run: |
+          $editorCmd = Join-Path $env:UE5_ROOT "Engine\Binaries\Win64\UnrealEditor-Cmd.exe"
+          New-Item -ItemType Directory -Force -Path "Saved/AutomationReports" | Out-Null
+          & $editorCmd "${{ steps.detect_project.outputs.project_path }}" `
+            -ExecCmds="Automation RunTests Project;Quit" `
+            -ReportExportPath="Saved/AutomationReports" `
+            -unattended -nop4 -nosplash -NullRHI -stdout -FullStdOutLogOutput
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: 上传测试报告与日志
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ue5-automation-reports
+          path: |
+            Saved/AutomationReports/**
+            Saved/Logs/**
+          if-no-files-found: ignore

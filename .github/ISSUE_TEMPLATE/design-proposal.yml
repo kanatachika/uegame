@@ -1,0 +1,58 @@
+name: 💡 玩法 / 创意提案
+description: 有新的模块点子、合成配方、地图机制或手感想法？直接丢在这里聊
+title: "[创意] "
+labels: ["design", "proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        不用写得多正式，也不用操心程序怎么实现。把你觉得好玩的点子写清楚，大家在这里一起补充、打磨，聊成熟了再合进设定集。
+
+  - type: input
+    id: summary
+    attributes:
+      label: 一句话说清这个点子
+      description: 用最直白的话概括，比如“加一个弹簧腿模块，落地自动弹跳”
+      placeholder: 例如：新增基础模块「磁吸手」——可以从远处把散落点数吸过来
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 这条创意属于哪一块？
+      options:
+        - 动作 / 能力模块
+        - 合成配方 / 组合技
+        - 部位破坏与耐久机制
+        - 点数来源与经济节奏
+        - 地图结构与据点玩法
+        - 手感 / UI / 视觉音频表现
+        - 其他脑洞
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: 具体怎么玩？你觉得最好玩的地方在哪？
+      description: 可以描述一个你脑补出来的对局画面，或者跟现有模块配合的效果
+      placeholder: |
+        - 玩家怎么触发 / 使用：
+        - 对局里会出现什么有意思的博弈或名场面：
+    validations:
+      required: true
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: 可能会带来什么坑或需要顺带考虑的问题？（选填）
+      description: 比如会不会太强、太难懂，或者和现有规则冲突
+      placeholder: 例如：如果范围太大，可能会让对手抢不到散落点数，需要限制距离或加冷却
+
+  - type: textarea
+    id: references
+    attributes:
+      label: 参考游戏 / 视频 / 截图（选填）
+      description: 有类似手感或机制的游戏可以贴名字或链接，截图可以直接拖进框里
+      placeholder: 例如：类似《Titanfall 2》的滑铲动量，或者贴一张草图

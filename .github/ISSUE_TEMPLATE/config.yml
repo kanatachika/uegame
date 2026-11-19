@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 查看当前玩法设定集（整合版 v1）
+    url: https://github.com/kanatachika/uegame/blob/main/docs/design/%E6%A8%A1%E5%9D%97%E5%8C%96FPS_%E8%AE%BE%E5%AE%9A%E9%9B%86_%E6%95%B4%E5%90%88%E7%89%88v1.md
+    about: 提新创意或待拍板问题前，可以先翻一眼现有已确认设定和第 8 章待定清单
+  - name: 🤝 团队协作与提交流程指南（CONTRIBUTING）
+    url: https://github.com/kanatachika/uegame/blob/main/CONTRIBUTING.md
+    about: 不确定分支怎么建、PR 怎么提、创意放哪里？先看这份大白话协作说明

@@ -1,0 +1,55 @@
+name: 🐛 Bug 反馈
+description: 玩法表现不对、联机异常、UE5 报错崩溃，或者 Git / CI 工具出问题
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: 问题出在哪一块？
+      options:
+        - 游戏内玩法 / 技能 / 耐久异常
+        - 联机同步问题（客户端和房主看到的不一样）
+        - UE5 编辑器崩溃 / 编译报错
+        - Git / LFS / GitHub Actions 报错
+        - 文档错误或链接打不开
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: 发生了什么？原本应该是什么样？
+      placeholder: |
+        - 实际表现：腿部模块被打到 0 耐久后，角色还能继续跑步。
+        - 预期表现：耐久归零后应该立刻不能跑步，并且 HUD 上图标变灰。
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: 怎么稳定复现？
+      description: 尽量按步骤写，让修 Bug 的队友能一键复现出来
+      placeholder: |
+        1. 启动 1v1 联机测试（1 Server + 1 Client）
+        2. 玩家 A 购买并装备跑步模块
+        3. 玩家 B 连续命中玩家 A 腿部 3 次
+        4. 玩家 A 按住 Shift 依然能加速
+    validations:
+      required: true
+
+  - type: input
+    id: env
+    attributes:
+      label: 你的环境信息（选填）
+      description: 操作系统、UE5 版本、所在分支名或提交号
+      placeholder: 例如：Windows 11 / UE 5.4.4 / main 分支
+
+  - type: textarea
+    id: attachments
+    attributes:
+      label: 报错日志 / 截图 / 录屏（选填）
+      description: 直接把截图拖进来，或者贴上关键的报错堆栈
+      placeholder: （直接粘贴文字或拖拽图片）

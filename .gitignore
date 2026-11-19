@@ -1,0 +1,111 @@
+# =============================================================================
+# Unreal Engine 5 (.gitignore) — 《点数 / DICEBODY》
+# =============================================================================
+# 原则：只把「源码、配置、蓝图/资产、插件定义、项目文档」放进 Git；
+#       凡是引擎或 IDE 在本地自动编译、缓存、生成的产物，一律忽略。
+#
+# 务必保留（绝不忽略）：
+#   - *.uproject
+#   - Config/*.ini
+#   - Source/**
+#   - Content/** (通过 Git LFS 跟踪)
+#   - Plugins/*/*.uplugin 及插件源码/资产
+#   - docs/**
+# =============================================================================
+
+# -------------------------
+# 1. UE5 本地生成与缓存目录
+# -------------------------
+# 编译产物（含根目录与 Plugins/*/Binaries/）
+[Bb]inaries/
+
+# 中间编译文件与 UHT 生成代码（含根目录与 Plugins/*/Intermediate/）
+[Ii]ntermediate/
+
+# 本地运行日志、崩溃转储、自动保存、截图、本地配置
+[Ss]aved/
+
+# 派生数据缓存（DDC / Zen）
+[Dd]erived[Dd]ata[Cc]ache/
+*.ddc
+*.ddp
+.zen/
+
+# 本地打包与构建输出目录（仅根目录与插件目录，避免误伤源码中的文件）
+/[Bb]uild/
+Plugins/*/[Bb]uild/
+/[Ss]taged[Bb]uilds/
+/[Pp]ackages/
+
+# UE 自动生成的根目录工程脚本（每次 GenerateProjectFiles 可重新生成）
+/Makefile
+/CMakeLists.txt
+/.ue4dependencies
+
+# -------------------------
+# 2. IDE 与编辑器本地缓存
+# -------------------------
+# Visual Studio
+.vs/
+*.sln
+*.suo
+*.ntvs*
+*.njsproj
+*.sln.docstates
+*.user
+*.userprefs
+*.VC.db
+*.VC.VC.opendb
+*.opendb
+*.sdf
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# JetBrains Rider
+.idea/
+.rider/
+*.sln.iml
+
+# VS Code（UE 生成的本地路径配置因人而异，不入库）
+.vscode/
+*.code-workspace
+
+# Xcode (macOS)
+*.xcworkspace/
+*.xcodeproj/
+
+# -------------------------
+# 3. 调试符号与临时编译残留
+# -------------------------
+*.pdb
+*.ipdb
+*.iobj
+*.ilk
+*.exp
+*.aps
+*.ncb
+
+# -------------------------
+# 4. 脚本缓存与操作系统杂项
+# -------------------------
+__pycache__/
+*.py[cod]
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Office / 编辑器临时锁文件与备份
+~$*
+*~
+*.tmp
+*.bak
+*.swp

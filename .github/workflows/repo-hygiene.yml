@@ -1,0 +1,39 @@
+name: Repo Hygiene
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repo-hygiene-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lfs-and-large-files:
+    name: LFS 与大文件检查
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取代码（不下载 LFS 实体，避免消耗流量额度）
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: 检查是否漏配 Git LFS 或提交了超限大文件
+        run: python3 .github/scripts/check_lfs.py
+
+  markdown-links:
+    name: Markdown 规范与相对链接检查
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: 检查 Markdown 编码与本地相对链接（支持中文文件名）
+        run: python3 .github/scripts/check_md_links.py

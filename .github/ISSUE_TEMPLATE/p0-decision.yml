@@ -1,0 +1,65 @@
+name: ⚖️ 待拍板决策卡（P0 / P1）
+description: 推进设定集第 8 章这类必须敲定的核心规则问题，避免开发卡壳
+title: "[决策] "
+labels: ["design", "decision"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        用来专门推进“还没想好、但开工前必须定下来”的规则分歧（比如设定集第 8 章里的 A1~E6）。
+        把备选方案摊开聊清楚，拍板后记得同步更新到 `docs/design/模块化FPS_设定集_整合版v1.md`。
+
+  - type: input
+    id: ref_id
+    attributes:
+      label: 对应设定集问题编号（选填）
+      description: 如果来自设定集第 8 章，填对应编号方便索引；新发现的问题可留空
+      placeholder: 例如：A3 / B1 / E1
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 优先级
+      options:
+        - P0 - 不定下来原型没法开工
+        - P1 - 做完整对局前需要拍板
+        - P2 - 后续打磨阶段再决定
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: 到底要拍板什么问题？
+      description: 说清楚卡在哪儿，为什么现在必须给个准话
+      placeholder: 例如：高射速武器或霰弹枪打中一次是不是直接扣 1 点模块耐久？如果不限制，喷子一枪就把模块打报废了。
+    validations:
+      required: true
+
+  - type: textarea
+    id: options
+    attributes:
+      label: 目前有哪些备选方案？
+      description: 列出 2~3 个常见方案，简单写写各自的好处和代价
+      placeholder: |
+        - **方案 A**：给每个部位加一个“扣耐久内置冷却”（比如 0.5 秒内最多扣 1 点）。
+          - 好处：规则简单，喷子和冲锋枪都不会瞬间蒸发模块。
+          - 代价：玩家连续命中时可能觉得反馈不够直接。
+        - **方案 B**：改成按累计伤害扣耐久（每受到 X 点伤害掉 1 格耐久）。
+          - 好处：自然兼容所有武器类型。
+          - 代价：跟“打中一下扣 1 点”的直观感略有差别。
+    validations:
+      required: true
+
+  - type: textarea
+    id: leaning
+    attributes:
+      label: 你目前更倾向哪个方案？为什么？（选填）
+      placeholder: 我暂时偏向方案 A，因为灰盒原型阶段实现最快、规则最好记……
+
+  - type: textarea
+    id: conclusion
+    attributes:
+      label: 最终拍板结论（定案后补填）
+      description: 讨论结束后由提议人或负责人回来填好结论，并同步改设定集、关闭此 Issue
+      placeholder: （待讨论后填写）

@@ -1,0 +1,41 @@
+# ==============================================================================
+# CODEOWNERS —— 自动分配 PR 评审人（Pull Request Reviewer）
+#
+# 【当前状态】
+# 下面所有规则暂时处于注释状态（# 开头），避免尚未填入真实 GitHub 用户名时触发语法报错。
+# 等队友都加入仓库后，把对应行前面的 `# ` 删掉，并把 `@xxx` 换成真实的 GitHub 用户名即可生效。
+#
+# 语法小贴士：
+#   路径规则                    负责人（可写多个，用空格隔开）
+#   /docs/design/               @designer-id @lead-id
+#
+# 注意：同一文件匹配多条规则时，以“最靠后的那一条”为准。
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. 文档与策划区（玩法设定集、创意案、规则定稿）
+#    负责核对设定口径、数值与设计一致性
+# ------------------------------------------------------------------------------
+# /docs/design/                 @replace-with-designer-username
+
+# ------------------------------------------------------------------------------
+# 2. 工程规范与 UE5 开发区（目录规范、命名规范、UE5 源码、配置与插件）
+#    负责核对代码风格、UE5 工程配置、.gitignore / .gitattributes 变更
+# ------------------------------------------------------------------------------
+# /docs/standards/              @replace-with-ue5-programmer-username
+# /docs/tech/                   @replace-with-ue5-programmer-username
+# /Source/                      @replace-with-ue5-programmer-username
+# /Config/                      @replace-with-ue5-programmer-username
+# /Plugins/                     @replace-with-ue5-programmer-username
+# /*.uproject                   @replace-with-ue5-programmer-username
+# /.gitignore                   @replace-with-ue5-programmer-username
+# /.gitattributes               @replace-with-ue5-programmer-username
+# /.editorconfig                @replace-with-ue5-programmer-username
+# /.clang-format                @replace-with-ue5-programmer-username
+
+# ------------------------------------------------------------------------------
+# 3. DevOps 与 GitHub 自动化区（Actions 流水线、Issue/PR 模板、运维文档）
+#    负责核对 CI 脚本、LFS 检查规则与构建机接入配置
+# ------------------------------------------------------------------------------
+# /.github/                     @replace-with-devops-username
+# /docs/devops/                 @replace-with-devops-username
