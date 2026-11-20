@@ -21,16 +21,16 @@
 
 ## 2. 玩法与 GAS（Gameplay Ability System）前缀
 
-《点数 / DICEBODY》的核心模块系统打算基于 GAS + 配表来做（见 [设定集 v1](../design/模块化FPS_设定集_整合版v1.md) 第 9 章），这一组前缀大家用得最多：
+本项目的核心能力、跨载体改造词条与机关系统预计基于 GAS + 配表来做（玩法规则见 [游戏设定集（草案 v2）](../design/游戏设定集_草案v2.md) 与 [成品 v1 基线](../design/游戏设定集_成品v1.md)），这一组前缀大家用得最多：
 
 | 前缀 | 资产类型 | 在本项目里通常用来做什么 | 命名示例 |
 | :--- | :--- | :--- | :--- |
-| `GA_` | Gameplay Ability | 具体的身体能力模块（跑、跳、爬、滑铲、射击、合成产物） | `GA_Move_Sprint`、`GA_Move_Jump`、`GA_Weapon_BasePistol` |
-| `GE_` | Gameplay Effect | 改属性、扣部位耐久、发点数、技能冷却 | `GE_Module_CostDurability`、`GE_Point_KillReward`、`GE_CD_Slide` |
-| `GC_` | Gameplay Cue | 受击表现、部位打废时的火花/音效提示（纯表现，不影响服务器结算） | `GC_Hit_LimbDamage`、`GC_Module_Break` |
-| `DA_` | PrimaryDataAsset / DataAsset | 单个能力模块的“身份证”（图标、部位限制、基础价格、绑定的 `GA_`） | `DA_Module_Jump`、`DA_Module_Climb` |
-| `DT_` | Data Table | 策划配表（基础模块定价表、合成固定配方表、杂交保底规则表） | `DT_ModulePricing`、`DT_CraftRecipes` |
-| `CT_` | Curve Table / Curve | 数值曲线（移速加成曲线、占点给点速率曲线） | `CT_MoveSpeedScale` |
+| `GA_` | Gameplay Ability | 具体的动作、武器、防具与改造词条能力（滑铲、跳、爬、投掷、连发、震荡波） | `GA_Move_Slide`、`GA_Move_DoubleJump`、`GA_Mod_Shockwave` |
+| `GE_` | Gameplay Effect | 扣防具耐久、触发流血、重置状态、发改造点、技能冷却（严守零数值成长） | `GE_Armor_CostDurability`、`GE_Status_Bleed`、`GE_Round_ResetState` |
+| `GC_` | Gameplay Cue | 受击/碎甲飞片、机关 0.3s 咔哒闪红前摇、词条剪影特效（纯表现，不影响服务器结算） | `GC_Armor_Break`、`GC_Trap_Windup`、`GC_Mod_BurstVFX` |
+| `DA_` | PrimaryDataAsset / DataAsset | 单个能力、词条或地图机关的“身份证”（图标、次数、绑定的 `GA_` / 机关蓝图） | `DA_Mod_Throw`、`DA_Trap_SpringPad` |
+| `DT_` | Data Table | 策划配表（词条 × 三大类变形矩阵、公共盲盒机关池、防具功能表） | `DT_ModCarrierMatrix`、`DT_TrapDraftPool` |
+| `CT_` | Curve Table / Curve | 镜头俯冲缓动曲线、缩圈节奏曲线（注意：不用于数值成长） | `CT_SandtableDiveCurve` |
 
 ---
 
