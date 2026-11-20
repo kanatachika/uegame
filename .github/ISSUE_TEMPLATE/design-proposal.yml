@@ -1,19 +1,19 @@
 name: 💡 玩法 / 创意提案
-description: 有新的模块点子、合成配方、地图机制或手感想法？直接丢在这里聊
+description: 有新的 FPS 脑洞机关、跨载体词条、动作/防具机制或开黑整活想法？直接丢在这里聊
 title: "[创意] "
 labels: ["design", "proposal"]
 body:
   - type: markdown
     attributes:
       value: |
-        不用写得多正式，也不用操心程序怎么实现。把你觉得好玩的点子写清楚，大家在这里一起补充、打磨，聊成熟了再合进设定集。
+        不用写得多正式，也不用操心程序怎么实现。记住核心铁律（零数值成长，只靠「能力」与「次数」），把好玩的地方写清楚，大家一起打磨后合进设定集（当前草案见 `docs/design/游戏设定集_草案v2.md`）。
 
   - type: input
     id: summary
     attributes:
       label: 一句话说清这个点子
-      description: 用最直白的话概括，比如“加一个弹簧腿模块，落地自动弹跳”
-      placeholder: 例如：新增基础模块「磁吸手」——可以从远处把散落点数吸过来
+      description: 用最直白的话概括，比如“加一个反弹声音的假脚步喇叭机关”
+      placeholder: 例如：新增防具词条「震荡波」——举盾格挡成功时反震弹开周围敌人，把贴脸对手弹进滑油里
     validations:
       required: true
 
@@ -22,12 +22,12 @@ body:
     attributes:
       label: 这条创意属于哪一块？
       options:
-        - 动作 / 能力模块
-        - 合成配方 / 组合技
-        - 部位破坏与耐久机制
-        - 点数来源与经济节奏
-        - 地图结构与据点玩法
-        - 手感 / UI / 视觉音频表现
+        - FPS 脑洞地图机关 / 派对搞事卡
+        - 动作 / 武器 / 防具与跨载体词条
+        - 三环节流程、顺序与多人计分
+        - 改造点经济与防滚雪球机制
+        - 三层箱庭地图结构与外环入场
+        - FPS 手感 / 防晕 3D / 读人视觉外显
         - 其他脑洞
     validations:
       required: true
@@ -48,7 +48,7 @@ body:
     attributes:
       label: 可能会带来什么坑或需要顺带考虑的问题？（选填）
       description: 比如会不会太强、太难懂，或者和现有规则冲突
-      placeholder: 例如：如果范围太大，可能会让对手抢不到散落点数，需要限制距离或加冷却
+      placeholder: 例如：如果机关触发半径太大，可能会在 FPS 视角下难以躲避，需要把前摇延长到 0.5 秒或减少单回合次数
 
   - type: textarea
     id: references

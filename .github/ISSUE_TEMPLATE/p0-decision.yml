@@ -1,20 +1,20 @@
 name: ⚖️ 待拍板决策卡（P0 / P1）
-description: 推进设定集第 8 章这类必须敲定的核心规则问题，避免开发卡壳
+description: 推进设定集草案 v2 待调优项或 v1 历史基线里的核心规则拍板，避免开发卡壳
 title: "[决策] "
 labels: ["design", "decision"]
 body:
   - type: markdown
     attributes:
       value: |
-        用来专门推进“还没想好、但开工前必须定下来”的规则分歧（比如设定集第 8 章里的 A1~E6）。
-        把备选方案摊开聊清楚，拍板后记得同步更新到 `docs/design/模块化FPS_设定集_整合版v1.md`。
+        用来专门推进“还没想好、但开工/灰盒验证前需要定下来”的规则分歧（例如 `docs/design/游戏设定集_草案v2.md` 第七节待实测项，或 `docs/design/游戏设定集_成品v1.md` 中的历史悬案）。
+        把备选方案摊开聊清楚，拍板后记得同步更新到对应设定集文档。
 
   - type: input
     id: ref_id
     attributes:
-      label: 对应设定集问题编号（选填）
-      description: 如果来自设定集第 8 章，填对应编号方便索引；新发现的问题可留空
-      placeholder: 例如：A3 / B1 / E1
+      label: 对应设定集版本与条目编号（选填）
+      description: 标明来自 v2 草案或 v1 基线及对应编号方便索引；新发现的问题可留空
+      placeholder: 例如：v2-默认顺序 / v2-2v2友伤 / v1-P0-03
 
   - type: dropdown
     id: priority
